@@ -10,7 +10,7 @@
         # This line will populate NIX_PATH
         { nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ]; }
         # ... other modules and your configuration.nix
-        ./configuration.nix
+        ./hosts/server/default.nix
       ];
     };
   };
