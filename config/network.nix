@@ -16,7 +16,7 @@
   };
   networking.networkmanager.enable = true;
   networking.useNetworkd = false;
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.allowedTCPPorts = [ 22 8989 7979 ];
   networking.hostName = "nixos";
   # networking.firewall.enable = false;
 }

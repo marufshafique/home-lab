@@ -1,13 +1,25 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [ 
+  imports = [
     /etc/nixos/hardware-configuration.nix
     ../../config/boot.nix
     ../../config/network.nix
     ../../config/users.nix
+    ../../services
   ];
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nixpkgs.config.allowUnfree = true;
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Timezone
   time.timeZone = "Etc/UTC";
@@ -15,7 +27,7 @@
   services.cockpit = {
     enable = false;
     port = 9090;
-    openFirewall = true; # Please see the comments section
+    # openFirewall = true; # Please see the comments section
     settings = {
       WebService = {
         AllowUnencrypted = true;
@@ -23,15 +35,17 @@
     };
   };
 
-  environment.systemPackages = map lib.lowPrio [
-    pkgs.curl
-    pkgs.git
-    pkgs.helix
-    pkgs.neovim
-    pkgs.wget
-    pkgs.neofetch
+  environment.systemPackages = with pkgs; [
+    curl
+    git
+    helix
+    neovim
+    wget
+    neofetch
+
+    nil
+    nixd
   ];
 
   system.stateVersion = "25.11"; # Did you read the comment?
 }
-
