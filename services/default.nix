@@ -3,6 +3,7 @@
 {
   imports = [
     ./immich.nix
-    ./plex.nix
+    ./docker.nix
+    # ./plex.nix
   ];
 }

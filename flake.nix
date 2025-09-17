@@ -10,10 +10,8 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          { nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ]; }
           ./hosts/server/default.nix
         ];
-
       };
     };
 }
