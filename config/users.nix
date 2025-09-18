@@ -16,8 +16,6 @@
     extraGroups = [
       "wheel"
       "networkmanager"
-      "medias"
-      "docker"
     ]; # sudo permission
     initialPassword = "12345";
     home = "/home/marufs";
