@@ -20,7 +20,7 @@ services:
       - TZ=Etc/UTC
     volumes:
       - /home/marufs/media/sonarr:/config
-      - /home/marufs/media/downloads:/downloads
+      - /home/marufs/media/downloads/TV:/downloads/TV
       - /home/marufs/media/tv:/tv
     ports:
       - 8989:8989
@@ -67,6 +67,8 @@ services:
     volumes:
       - /home/marufs/media/qbittorrent:/config
       - /home/marufs/media/downloads:/downloads
+      - /home/marufs/media/downloads/Movies:/downloads/Movies
+      - /home/marufs/media/downloads/TV:/downloads/TV
     ports:
       - 8080:8080    # Web UI
       - 6881:6881    # TCP torrent port
@@ -90,6 +92,37 @@ services:
       # - 8920:8920   # Optional: HTTPS if enabled
     restart: unless-stopped
 
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Etc/UTC
+    volumes:
+      - /home/marufs/media/jellyfin:/app/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=1000      # your user ID
+      - PGID=1000      # your group ID
+      - TZ=Etc/UTC     # set timezone
+    volumes:
+      - /home/marufs/media/deluge/config:/config
+      - /home/marufs/media/downloads:/downloads
+      - /home/marufs/media/downloads/Movies:/downloads/Movies
+      - /home/marufs/media/downloads/TV:/downloads/TV
+    ports:
+      - 8112:8112     # Web UI
+      - 58846:58846   # Daemon
+      - 58946:58946   # TCP
+      - 58946:58946/udp  # UDP
+    restart: unless-stopped
+
 volumes:
   portainer_data:
   sonarr:
@@ -97,3 +130,4 @@ volumes:
   prowlarr:
   qbittorrent:
   jellyfin:
+  jellyseerr:
